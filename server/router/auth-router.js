@@ -10,7 +10,7 @@ const authcontrollers=require("../controllers/auth-controllers");
 
 router.route("/").get(authcontrollers.home);
 
-router.route("/register").get(authcontrollers.registration);
+router.route("/register").post(authcontrollers.registration);
 
 
 router.route("/signup").get(authcontrollers.signup);

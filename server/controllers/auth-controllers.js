@@ -10,12 +10,14 @@ const home= async (req,res)=>{
     }
 }
 
-const registration=async(req,res)=>{
+const registration=async (req,res)=>{
+    console.log("hiii");
+    console.log(req.body);
         try {
-            res.send("this is the regitration page called by router to controller");
+            res.json({message:req.body});
 
         } catch (error) {
-            res.send({msg:"registration page not found "});
+            res.json({msg:"registration page not found server issue "});
         }
     
 }
