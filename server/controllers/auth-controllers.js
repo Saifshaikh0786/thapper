@@ -1,3 +1,6 @@
+const User=require("../models/user-models");
+const bcrypt=require("bcryptjs");
+
 
 
 const home= async (req,res)=>{
@@ -11,12 +14,34 @@ const home= async (req,res)=>{
 }
 
 const registration=async (req,res)=>{
-    console.log("hiii");
-    console.log(req.body);
+    
         try {
-            res.json({message:req.body});
+            const {username,email,phone,password}=req.body;
 
-        } catch (error) {
+            const userExist= await User.findOne({email});
+
+            if(userExist){
+                return res.json({message:"email already exist "});
+            }
+
+            // hashimg password
+            const saltRound=10;
+            const hash_password=await bcrypt.hash(password,saltRound);
+
+            const usercreated=await User.create({
+                username,
+                email,
+                phone,
+                password:hash_password,
+            });
+            
+            res.json({message:usercreated,token:await  usercreated.generateToken(),
+                userId:usercreated._id.toString(),
+            });
+
+
+        } 
+        catch (error) {
             res.json({msg:"registration page not found server issue "});
         }
     

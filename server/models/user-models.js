@@ -1,6 +1,9 @@
 
 const mongoose=require("mongoose");
 const { Schema, string, boolean } = require("zod");
+const jwt=require("jsonwebtoken");
+const JWT_KEY="saifsidkmlxmxkdique";
+
 
 const UserSchema=new mongoose.Schema({
     username:{
@@ -11,7 +14,7 @@ const UserSchema=new mongoose.Schema({
         type:String,
         require:true
     },
-    phonenumber:{
+    phone:{
         type:String,
         require:true
     },
@@ -20,10 +23,28 @@ const UserSchema=new mongoose.Schema({
         require:true
     },
     isAdmin:{
-        type:boolean,
+        type:Boolean,
         default:false
     },
 });
+
+UserSchema.methods.generateToken= async function(){
+        try {
+          return jwt.sign({
+            userId:this._id.toString(),
+            email:this.email,
+            isAdmin:this.isAdmin,
+          },
+          process.JWT_KEY,{
+            expiresIn:"30d"
+          }
+        ); 
+
+        }
+        catch (error) {
+            console.log(error);
+        }
+}
 
 const User=new mongoose.model("User",UserSchema);
 
