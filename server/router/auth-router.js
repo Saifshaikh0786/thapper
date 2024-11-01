@@ -15,7 +15,7 @@ router.route("/register").post(authcontrollers.registration);
 
 router.route("/signup").get(authcontrollers.signup);
 
-router.route("/signin").get(authcontrollers.signin);
+router.route("/signin").post(authcontrollers.signin);
 
 router.route("/contact").get(authcontrollers.contact);
 

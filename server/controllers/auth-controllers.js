@@ -56,8 +56,24 @@ const signup=async(req,res)=>{
 
 const signin=async(req,res)=>{
     try {
-        res.send("this is the sign in page caleed by router to the controller ");
-    } catch (error) {
+       const {email,password}=req.body;
+       const userExist=await User.findOne({email});
+
+       if(userExist){
+        const ismatch=await bcrypt.compare(password,userExist.password);
+                if(ismatch){
+                    res.json({message:"login successfulyy"});
+                        }
+               else{
+                    res.json({message:"invalid passowrd"});
+                        }
+    }
+    
+    else{
+        res.json({message:"user does not exist"});
+    }
+    } 
+    catch (error) {
         res.send({msg:"signin page not found"});
     }
 }
