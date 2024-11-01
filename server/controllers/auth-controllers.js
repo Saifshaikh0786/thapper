@@ -25,7 +25,7 @@ const registration=async (req,res)=>{
             }
 
             // hashimg password
-            const hash_password=await bcrypt.hash(password,saltRound);
+            const hash_password=await bcrypt.hash(password,10);
 
             const usercreated=await User.create({
                 username,
