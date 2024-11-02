@@ -8,11 +8,14 @@ const router=require('./router/auth-router');
 const { json } = require("body-parser");
 const connectDb=require("./utils/db");
 const validate=require("./middleware/validate-middleware-zod");
+const errormiddleware = require("./middleware/error-middleware");
+const signinSchema=require("./validator/signin-zod");
 
 app.use(express.json());
 
 app.use("/api/auth",router);
 
+app.use(errormiddleware);
 
 
 connectDb().then(()=>{

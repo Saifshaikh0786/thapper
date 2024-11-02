@@ -1,15 +1,23 @@
 const { Schema } = require("zod");
 
-
-const validate=(Schema)=>async(req,res,next)=>{
+const validate = (Schema) => async (req, res, next) => {
     try {
-        const parseBody=await Schema.parseAsync(req.body);
-        req.body=parseBody;
+        const parseBody = await Schema.parseAsync(req.body);
+        req.body = parseBody;
         next();
     } catch (err) {
-        const message=err.errors[0].message;
-        res.json({msg:message})
-    }
-}
+        const status = 422;
+        const message = "Fill all the inputs properly";
+        const extraDetail = err.errors[0].message;
 
-module.exports=validate;
+        const error = {
+            status,
+            message,
+            extraDetail,
+        };
+
+        res.status(status).json({ msg: message, detail: extraDetail });
+    }
+};
+
+module.exports = validate;

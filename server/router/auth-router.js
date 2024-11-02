@@ -5,6 +5,7 @@ const router=express.Router();
 const authcontrollers=require("../controllers/auth-controllers");
 const signupSchema=require("../validator/zod-auth");
 const validate=require("../middleware/validate-middleware-zod");
+const signinSchema=require("../validator/signin-zod");
 
 
 
@@ -17,7 +18,7 @@ router.route("/register").post(validate(signupSchema),authcontrollers.registrati
 
 router.route("/signup").get(authcontrollers.signup);
 
-router.route("/signin").post(authcontrollers.signin);
+router.route("/signin").post(validate(signinSchema),authcontrollers.signin);
 
 router.route("/contact").get(authcontrollers.contact);
 

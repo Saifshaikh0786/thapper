@@ -1,7 +1,9 @@
 const User=require("../models/user-models");
 const bcrypt=require("bcryptjs");
+const signinSchema=require("../validator/signin-zod");
 
 
+// everything will be done here   
 
 const home= async (req,res)=>{
     try {
@@ -34,14 +36,17 @@ const registration=async (req,res)=>{
                 password:hash_password,
             });
             
-            res.json({message:usercreated,token:await  usercreated.generateToken(),
+            res.json({
+                message:"registration succesfull",
+                token:await  usercreated.generateToken(),
                 userId:usercreated._id.toString(),
             });
 
 
         } 
         catch (error) {
-            res.json({msg:"registration page not found server issue "});
+            next(error);
+            // res.json({msg:"registration page not found server issue "});
         }
     
 }
