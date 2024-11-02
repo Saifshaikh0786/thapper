@@ -6,8 +6,9 @@ const validate=(Schema)=>async(req,res,next)=>{
         const parseBody=await Schema.parseAsync(req.body);
         req.body=parseBody;
         next();
-    } catch (error) {
-        res.json({message:"please fill the feilds correctly with rerquired data"})
+    } catch (err) {
+        const message=err.errors[0].message;
+        res.json({msg:message})
     }
 }
 
